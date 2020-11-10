@@ -84,8 +84,6 @@ class HttpClient(object):
         del kwargs['base']
         del kwargs['user_agent']
 
-        kwargs['verify'] = False
-
         if method != 'get':
             kwargs = self.set_body(kwargs)
 

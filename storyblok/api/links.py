@@ -14,9 +14,8 @@ class Links(object):
         Args:
             token: Public token for published or private token for draft version
         """
-        body = options['query'] if 'query' in options else {}
 
-        response = self.client.get('/cdn/links/', body, options)
+        response = self.client.get('/cdn/links/', token=token, options=options)
 
         return response
 
@@ -29,9 +28,8 @@ class Links(object):
             token: Public token for published or private token for draft version
             id: Uuid of the link
         """
-        body = options['query'] if 'query' in options else {}
 
-        response = self.client.get('/cdn/links/' + id + '', body, options)
+        response = self.client.get('/cdn/links/' + id, token=token, options=options)
 
         return response
 

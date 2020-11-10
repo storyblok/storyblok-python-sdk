@@ -91,7 +91,7 @@ body = {'story': {'name':"story_name"}}
 # >>> '{"story": {"name":"story_name"}}'
 ```
 
-### Spaces api
+### Spaces API
 
 Returns your current space name, published version and domain
 
@@ -111,9 +111,9 @@ The following arguments are required:
 response = spaces.me("your_access_token", options)
 ```
 
-### Stories api
+### Stories API
 
-Returns stories api instance
+Returns stories API instance
 
 ```python
 stories = client.stories()
@@ -127,8 +127,22 @@ The following arguments are required:
 
  * __token__: Public token for published or private token for draft version
 
+Getting a published stories list:
+
+_simple example:_
 ```python
-response = stories.list("your_access_token", "draft", "1", "25", "posts", "1527067945", options)
+response = stories.list("your_access_token")
+```
+_advanced example: the second parameter is the query in dictionary format_
+```python
+response = stories.list("public_token", { "with_tag": "tag_from_my_second_folder"})
+```
+
+Getting a draft stories list:
+
+_simple example:_
+```python
+response = stories.list(preview_token, { "version": "draft"})
 ```
 
 ##### Get a story by id (GET /cdn/stories/:story_id)
@@ -138,14 +152,21 @@ Returns a single story by id (https://www.storyblok.com/docs/Delivery-Api/get-a-
 The following arguments are required:
 
  * __token__: Public token for published or private token for draft version
+ * __story_id__: Story identifier as String, eg: "41252"
 
+Getting a published story:
 ```python
-response = stories.single("your_access_token", "draft", "41252", options)
+response = stories.single("your_access_token", "41252")
 ```
 
-### Tags api
+Getting a draft story:
+```python
+response = stories.single("your_access_token", "41252", {"version": "draft"})
+```
 
-Returns tags api instance
+### Tags API
+
+Returns tags API instance
 
 ```python
 tags = client.tags()
@@ -163,9 +184,9 @@ The following arguments are required:
 response = tags.list("your_access_token", "de", options)
 ```
 
-### Links api
+### Links API
 
-Returns links api instance
+Returns links API instance
 
 ```python
 links = client.links()
@@ -180,7 +201,7 @@ The following arguments are required:
  * __token__: Public token for published or private token for draft version
 
 ```python
-response = links.list("your_access_token", "draft", "de", options)
+response = links.list("your_access_token")
 ```
 
 ##### Get a link by id (GET /cdn/links/:id)
@@ -196,24 +217,78 @@ The following arguments are required:
 response = links.single("your_access_token", "148ee49a-ad81-4aff-b3d5-a2b4b6739e65", options)
 ```
 
-### Tags api
+### Datasources API
 
-Returns tags api instance
+Returns datasources API instance
+
+```python
+datasources = client.datasources()
+```
+
+##### Get a list of Datasources (GET /cdn/datasources/)
+
+Returns a list of Datasources (https://www.storyblok.com/docs/api/content-delivery#core-resources/datasources/datasources)
+
+The following arguments are required:
+
+ * __token__: Public token
+
+```python
+response = datasources.list("your_access_token")
+```
+
+##### Get a single Datasource (GET /cdn/datasources/:id)
+
+Returns a single Datasources (https://www.storyblok.com/docs/api/content-delivery#core-resources/datasources/datasources)
+
+The following arguments are required:
+
+ * __token__: Public token
+
+```python
+response = datasources.single("your_access_token", 'id')
+```
+
+### DatasourceEntries API
+
+Returns datasource_entries API instance
 
 ```python
 datasource_entries = client.datasource_entries()
 ```
 
-##### Get a list of tags (GET /cdn/datasource_entries/)
+##### Get a list of DatasourceEntries (GET /cdn/datasource_entries/)
 
-Returns a list of tags (https://www.storyblok.com/docs/Delivery-Api/Tags)
+Returns a list of DatasourceEntries (https://www.storyblok.com/docs/api/content-delivery#core-resources/datasource-entries/datasource-entries)
 
 The following arguments are required:
 
- * __token__: Public token for published or private token for draft version
+ * __token__: Public token
 
 ```python
-response = datasource_entries.list("your_access_token", "labels", "de-at", options)
+response = datasource_entries.list("your_access_token")
+```
+
+## Testing
+Install the testing tool
+```bash
+pip install -U pytest==6.1.2
+```
+
+Inside of the directory project set the `PYTHONPATH` to help the test suite find the module
+```bash
+export PYTHONPATH=.
+```
+
+The management tests also need from an environment variable called USER_TOKEN set, but proceed with **CAUTION**, because the changes made by the tests on your space are persisted
+
+```bash
+export USER_TOKEN=<user_token>
+```
+
+Run the test suite:
+```bash
+pytest
 ```
 
 ## Contributors
@@ -224,3 +299,6 @@ MIT
 
 ## Bug Reports
 Report [here](https://github.com/storyblok/storyblok-python-sdk/issues).
+
+## Questions
+Please feel free to ask [here](https://github.com/storyblok/storyblok-python-sdk/issues).

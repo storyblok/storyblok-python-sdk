@@ -14,9 +14,7 @@ class Spaces(object):
         Args:
             token: Public token for published or private token for draft version
         """
-        body = options['query'] if 'query' in options else {}
-
-        response = self.client.get('/cdn/spaces/me', body, options)
+        response = self.client.get('/cdn/spaces/me', token=token, options=options)
 
         return response
 
